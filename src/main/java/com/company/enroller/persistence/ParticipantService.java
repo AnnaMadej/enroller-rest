@@ -21,25 +21,25 @@ public class ParticipantService {
 	public Collection<Participant> getAll() {
 		return session.createCriteria(Participant.class).list();
 	}
-	
-	public Participant findByLogin(String login){
+
+	public Participant findByLogin(String login) {
 		return (Participant) session.get(Participant.class, login);
 	}
-	
-	public Participant add(Participant participant){
+
+	public Participant add(Participant participant) {
 		Transaction transaction = this.session.beginTransaction();
 		session.save(participant);
 		transaction.commit();
 		return participant;
 	}
-	
-	public void deleteParticipant(Participant participant){
+
+	public void deleteParticipant(Participant participant) {
 		Transaction transaction = this.session.beginTransaction();
 		session.delete(participant);
 		transaction.commit();
 	}
-	
-	public Participant update(Participant participant){
+
+	public Participant update(Participant participant) {
 		Transaction transaction = this.session.beginTransaction();
 		session.update(participant);
 		transaction.commit();
