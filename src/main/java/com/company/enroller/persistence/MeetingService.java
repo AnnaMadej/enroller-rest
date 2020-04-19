@@ -28,6 +28,20 @@ public class MeetingService {
 	public Meeting findById(long meetingId) {
 		return (Meeting) session.get(Meeting.class, meetingId);
 	}
+	
+	public Meeting addMeeting(Meeting meeting) {
+		Transaction transaction = session.beginTransaction();
+		session.save(meeting);
+		transaction.commit();
+		return meeting;
+	}
+	
+	public Meeting updateMeeting(Meeting meeting) {
+		Transaction transaction = session.beginTransaction();
+		session.update(meeting);
+		transaction.commit();
+		return meeting;
+	}
 
 
 }

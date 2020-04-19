@@ -8,7 +8,7 @@
 		<property name="format_sql">true</property>
 		<property name="dialect">com.company.enroller.persistence.SQLiteDialect</property>
 		<property name="connection.driver_class">org.sqlite.JDBC</property>
-		<property name="connection.url">jdbc:sqlite:enroller.db</property>
+		<property name="connection.url">jdbc:sqlite:enroll.db</property>
 		<property name="connection.username"></property>
 		<property name="connection.password"></property>
 	
