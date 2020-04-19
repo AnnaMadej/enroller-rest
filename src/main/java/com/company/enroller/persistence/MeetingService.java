@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 
 import com.company.enroller.model.Meeting;
+import com.company.enroller.model.Participant;
 
 @Component("meetingService")
 public class MeetingService {
@@ -36,8 +37,15 @@ public class MeetingService {
 		return meeting;
 	}
 	
-	public Meeting updateMeeting(Meeting meeting) {
+	public Meeting deleteMeeting(Meeting meeting) {
 		Transaction transaction = session.beginTransaction();
+		session.delete(meeting);
+		transaction.commit();
+		return meeting;
+	}
+	
+	public Meeting updateMeeting(Meeting meeting){
+		Transaction transaction = this.session.beginTransaction();
 		session.update(meeting);
 		transaction.commit();
 		return meeting;
