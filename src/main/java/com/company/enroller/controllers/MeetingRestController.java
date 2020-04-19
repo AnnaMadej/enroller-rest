@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,5 +25,15 @@ public class MeetingRestController {
 	public ResponseEntity<?> getAllMeetings() {
 		Collection<Meeting> meetings = meetingService.getAll();
 		return new ResponseEntity<Collection<Meeting>>(meetings, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET )
+	public ResponseEntity<?> getMeeting(@PathVariable("id") long meetingId) {
+		Meeting meeting = meetingService.findById(meetingId);
+		
+		if(meeting == null) {
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity(meeting, HttpStatus.OK);
 	}
 }
