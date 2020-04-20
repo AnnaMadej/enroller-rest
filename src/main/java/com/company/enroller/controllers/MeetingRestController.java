@@ -52,7 +52,7 @@ public class MeetingRestController {
 		return new ResponseEntity<Meeting>(meeting, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{id}/{login}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{id}/{login}", method = RequestMethod.POST)
 	public ResponseEntity<?> addParticipant(@PathVariable("id") long meetingId, @PathVariable("login") String login) {
 		Meeting meeting = meetingService.findById(meetingId);
 		Participant participant = participantService.findByLogin(login);
@@ -118,10 +118,12 @@ public class MeetingRestController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<?> showMeetings(@RequestParam(value = "filter", required = false) String filter,
-			@RequestParam(value = "sort", required = false) String sort) {
+	public ResponseEntity<?> showMeetings(
+			@RequestParam(value = "filter", required = false) String filter,
+			@RequestParam(value = "sort", required = false) String sort,
+			@RequestParam(value = "login", required = false) String login) {
 
-		Collection<Meeting> meetings = meetingService.findByNameOrDescription(filter, sort);
+		Collection<Meeting> meetings = meetingService.findByNameOrDescriptionOrParticipantsLogin(filter, sort, login);
 		return new ResponseEntity<Collection<Meeting>>(meetings, HttpStatus.OK);
 	}
 

@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -54,7 +55,7 @@ public class MeetingService {
 		return meeting;
 	}
 
-	public Collection<Meeting> findByNameOrDescription(String filter, String sort) {
+	public Collection<Meeting> findByNameOrDescriptionOrParticipantsLogin(String filter, String sort, String login) {
 
 		if (filter == null) {
 			filter = "";
@@ -66,8 +67,16 @@ public class MeetingService {
 
 		Criteria criteria = session.createCriteria(Meeting.class);
 		criteria.addOrder(Order.asc(sort));
-		criteria.add(Restrictions.or(Restrictions.like("description", "%" + filter + "%", MatchMode.ANYWHERE),
-				Restrictions.like("title", "%" + filter + "%", MatchMode.ANYWHERE)));
+		criteria.add(Restrictions.or(Restrictions.like("description", filter , MatchMode.ANYWHERE),
+				Restrictions.like("title", filter, MatchMode.ANYWHERE)));
+
+		if(login != null)
+		{
+			 criteria.createAlias("participants", "p", CriteriaSpecification.LEFT_JOIN);
+			 criteria.add(Restrictions.eq("p.login", login));
+		}
+		
+		
 
 		return criteria.list();
 
